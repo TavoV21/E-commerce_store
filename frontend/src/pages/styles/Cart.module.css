@@ -1,0 +1,20 @@
+.title {
+  text-shadow: 4px 4px 4px rgba(175, 175, 175, 0.932);
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    rgb(43, 51, 80),
+    rgb(43, 51, 80),
+    transparent
+  );
+}
+
+.containerImgZoom {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(50%, 50%);
+  width: 50%;
+  height: 50%;
+}

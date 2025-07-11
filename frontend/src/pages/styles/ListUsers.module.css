@@ -1,0 +1,10 @@
+.title {
+  text-shadow: 4px 4px 4px rgba(175, 175, 175, 0.932);
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    rgb(19, 133, 89),
+    rgb(19, 133, 89),
+    transparent
+  );
+}

@@ -1,0 +1,22 @@
+.header {
+  background-color: darkslategray;
+}
+
+.ul {
+  position: relative;
+  top: 20%;
+}
+
+.li {
+  border-bottom: 1px solid rgb(255, 230, 0);
+}
+
+.li:nth-child(1) {
+  border-top: 1px solid rgb(255, 230, 0);
+}
+
+.li:hover {
+  background-color: darkslategray;
+  border-left: 5px solid rgb(255, 230, 0);
+  cursor: pointer;
+}

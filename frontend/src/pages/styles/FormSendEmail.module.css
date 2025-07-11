@@ -1,0 +1,14 @@
+.container {
+  background-color: slateblue;
+  width: 300px;
+  min-height: 270px;
+  border-radius: 20px;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.containerTitle {
+  background-color: aliceblue;
+  padding: 1rem;
+  border-radius: 20px 20px 50px 50px;
+}

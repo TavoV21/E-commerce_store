@@ -1,0 +1,21 @@
+.title {
+  text-shadow: 4px 4px 4px rgba(175, 175, 175, 0.932);
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    rgb(9, 38, 134),
+    rgb(9, 38, 134),
+    transparent
+  );
+}
+
+.form {
+  background-image: linear-gradient(
+    to bottom,
+    transparent,
+    transparent,
+    transparent,
+    rgb(26, 24, 24)
+  );
+  max-width: 650px;
+}
