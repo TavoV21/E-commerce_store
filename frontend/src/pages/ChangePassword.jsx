@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import style from "./styles/ChangePassword.module.css";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { API_URL } from "../components/config.js";
 import { ValidateChangePassword } from "../Validations/FrmValidatePasswordChange";
+import { ValidateNewPassword } from "../Validations/FrmValidateNewPassword";
 
 export default function ChangePassword() {
   const { email } = useParams();
@@ -15,10 +16,23 @@ export default function ChangePassword() {
   });
   const [error, setError] = useState({});
   const [alert, setAlert] = useState(false);
+  const [changeEye1, setChangeEye1] = useState(false);
+  const [changeEye2, setChangeEye2] = useState(false);
+  const [changeEye3, setChangeEye3] = useState(false);
+  const [color, setColor] = useState("");
 
   console.log(email);
-  console.log(user);
   console.log(error);
+  console.log(color);
+
+  useEffect(() => {
+    const resultError = ValidateNewPassword(user.newpassword);
+
+    console.log(resultError);
+
+    setError(resultError);
+    setColor(resultError.color);
+  }, [user]);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -59,8 +73,6 @@ export default function ChangePassword() {
         }, 2000);
       })
       .catch((err) => {
-        //console.log(error.response.data.message);
-
         setError({
           ...error,
           password: "Contraseña no existe",
@@ -95,16 +107,30 @@ export default function ChangePassword() {
             <label htmlFor="password" className="form-label text-white fw-bold">
               Contraseña actual:
             </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="form-control"
-              placeholder="Escribe tu contraseña actual"
-              onChange={handleChange}
-            />
+
+            <div className="input-group ">
+              <input
+                type={changeEye1 ? "text" : "password"}
+                id="password"
+                name="password"
+                className="form-control"
+                placeholder="Escribe tu contraseña actual"
+                onChange={handleChange}
+              />
+              <span
+                className={`${style.span} bg-light input-group-text`}
+                onClick={() => setChangeEye1(!changeEye1)}
+              >
+                {changeEye1 ? (
+                  <i className="bi bi-eye-fill text-dark"></i>
+                ) : (
+                  <i className="bi bi-eye-slash-fill text-dark"> </i>
+                )}
+              </span>
+            </div>
+
             {error.password && (
-              <p style={{ color: "red", fontSize: "1rem", marginTop: "4px" }}>
+              <p style={{ color: "red", fontSize: "0.8rem", marginTop: "4px" }}>
                 {error.password}
               </p>
             )}
@@ -116,16 +142,47 @@ export default function ChangePassword() {
             >
               Contraseña nueva:
             </label>
-            <input
-              type="password"
-              id="newpassword"
-              name="newpassword"
-              className="form-control"
-              placeholder="Escribe tu contraseña nueva"
-              onChange={handleChange}
-            />
+
+            <div className="input-group">
+              <input
+                type={changeEye2 ? "text" : "password"}
+                id="newpassword"
+                name="newpassword"
+                className="form-control"
+                placeholder="Escribe tu contraseña nueva"
+                onChange={handleChange}
+              />
+              <span
+                className={`${style.span} bg-light input-group-text`}
+                onClick={() => setChangeEye2(!changeEye2)}
+              >
+                {changeEye2 ? (
+                  <i className="bi bi-eye-fill text-dark"></i>
+                ) : (
+                  <i className="bi bi-eye-slash-fill text-dark"> </i>
+                )}
+              </span>
+            </div>
+            {user.newpassword !== "" && (
+              <div
+                className="mt-1"
+                style={{
+                  backgroundColor: color,
+                  width: "100%",
+                  height: "5px",
+                  borderRadius: "1rem",
+                }}
+              ></div>
+            )}
+
+            {error.npassword && (
+              <p style={{ color: color, fontSize: "0.8rem", marginTop: "4px" }}>
+                {error.npassword}
+              </p>
+            )}
+
             {error.newpassword && (
-              <p style={{ color: "red", fontSize: "1rem", marginTop: "4px" }}>
+              <p style={{ color: "red", fontSize: "0.8rem", marginTop: "4px" }}>
                 {error.newpassword}
               </p>
             )}
@@ -137,16 +194,28 @@ export default function ChangePassword() {
             >
               Repite tu Contraseña Nueva:
             </label>
-            <input
-              type="password"
-              id="rptpassword"
-              name="rptpassword"
-              className="form-control"
-              placeholder="Escribe nuevamente la contraseña"
-              onChange={handleChange}
-            />
+            <div className="input-group">
+              <input
+                type={changeEye3 ? "text" : "password"}
+                id="rptpassword"
+                name="rptpassword"
+                className="form-control"
+                placeholder="Escribe nuevamente la contraseña"
+                onChange={handleChange}
+              />
+              <span
+                className={`${style.span} bg-light input-group-text`}
+                onClick={() => setChangeEye3(!changeEye3)}
+              >
+                {changeEye3 ? (
+                  <i className="bi bi-eye-fill text-dark"></i>
+                ) : (
+                  <i className="bi bi-eye-slash-fill text-dark"> </i>
+                )}
+              </span>
+            </div>
             {error.rptpassword && (
-              <p style={{ color: "red", fontSize: "1rem", marginTop: "4px" }}>
+              <p style={{ color: "red", fontSize: "0.8rem", marginTop: "4px" }}>
                 {error.rptpassword}
               </p>
             )}
