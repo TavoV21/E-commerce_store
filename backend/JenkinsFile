@@ -15,6 +15,7 @@ pipeline{
         stage('ubicando carpeta'){
             steps{
                 dir(DIR_BACKEND){
+                    sh "npm install -g yarn"
                     sh "yarn install"
                 }
                 
