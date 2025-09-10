@@ -17,9 +17,12 @@ pipeline{
         }
         stage('imprima esta informacion'){
             steps{
-                echo "su correo es $EMAIL"
-                def NICKNAME = 'LENIN'
-                echo "su apodo es" + NICKNAME
+                script{
+                    def NICKNAME = 'LENIN'
+                    echo "su correo es $EMAIL"
+                    echo "su apodo es" + NICKNAME
+
+                }
             }
         }
     }
