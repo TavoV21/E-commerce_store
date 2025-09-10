@@ -3,7 +3,7 @@ pipeline{
      environment {
         EMAIL='gusvillada21@gmail.com'
         NICKNAME='MAJIN'
-        DEV_ENVIRONMENT= env.NODE_ENV
+        DEV_ENVIRONMENT= "${env.NODE_ENV}"
     }
     stages{
         stage('primer pipeline'){
