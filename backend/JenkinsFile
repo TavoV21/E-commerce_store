@@ -19,7 +19,7 @@ pipeline{
             steps{
                 echo "su correo es $EMAIL"
                 def NICKNAME = 'LENIN'
-                echo "su apodo es ${NICKNAME}"
+                echo "su apodo es" + NICKNAME
             }
         }
     }
