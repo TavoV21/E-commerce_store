@@ -7,18 +7,15 @@ pipeline{
     stages{
         stage('ubicando carpeta'){
             steps{
-                script{
-                    echo "buscando el backend"
-                    sh "pwd"
-                    sh "ls"
-                    sh "cd backend"
+                dir("backend"){
+                    sh "yarn install"
                 }
                 
             }
         }
         stage('test'){
             steps{
-                script{
+                dir("backend"){
                     sh "yarn test tests/categories.test.mjs"
                 }
             }
