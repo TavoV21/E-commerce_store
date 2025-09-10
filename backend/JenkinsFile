@@ -3,16 +3,18 @@ pipeline{
     tools {
         nodejs 'nodejs'
     }
+    environment{
+        DIR_BACKEND = 'backend'
+    }
     stages{
         stage('Preparación'){
             steps{
                 sh 'node -v'
-                sh 'yarn -v'
             }
         }
         stage('ubicando carpeta'){
             steps{
-                dir("backend"){
+                dir(DIR_BACKEND){
                     sh "yarn install"
                 }
                 
@@ -20,7 +22,7 @@ pipeline{
         }
         stage('test'){
             steps{
-                dir("backend"){
+                dir(DIR_BACKEND){
                     sh "yarn test tests/categories.test.mjs"
                 }
             }
