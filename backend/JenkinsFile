@@ -1,10 +1,13 @@
 pipeline{
     agent any
-     environment {
-        EMAIL='gusvillada21@gmail.com'
-        NICKNAME='MAJIN'
-    }
+    
     stages{
+        stage('Preparación'){
+            steps{
+                sh 'node -v'
+                sh 'yarn -v'
+            }
+        }
         stage('ubicando carpeta'){
             steps{
                 dir("backend"){
@@ -20,15 +23,6 @@ pipeline{
                 }
             }
         }
-        /* stage('imprima esta informacion'){
-            steps{
-                script{
-                    def NICKNAME = 'LENIN'
-                    echo "su correo es $EMAIL"
-                    echo "su apodo es" + NICKNAME
 
-                }
-            }
-        } */
     }
 }
