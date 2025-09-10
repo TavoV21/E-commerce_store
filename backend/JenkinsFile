@@ -3,7 +3,6 @@ pipeline{
      environment {
         EMAIL='gusvillada21@gmail.com'
         NICKNAME='MAJIN'
-        DEV_ENVIRONMENT= "${process.env.NODE_ENV}"
     }
     stages{
         stage('primer pipeline'){
@@ -19,8 +18,8 @@ pipeline{
         stage('imprima esta informacion'){
             steps{
                 echo "su correo es $EMAIL"
+                def NICKNAME = 'LENIN'
                 echo "su apodo es $NICKNAME"
-                echo "su entorno de desarrollo es $DEV_ENVIRONMENT"
             }
         }
     }
