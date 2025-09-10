@@ -5,17 +5,25 @@ pipeline{
         NICKNAME='MAJIN'
     }
     stages{
-        stage('primer pipeline'){
+        stage('ubicando carpeta'){
             steps{
                 script{
-                    echo "ejecutando mi primer pipeline"
+                    echo "buscando el backend"
                     sh "pwd"
                     sh "ls"
+                    sh "cd backend"
                 }
                 
             }
         }
-        stage('imprima esta informacion'){
+        stage('test'){
+            steps{
+                script{
+                    sh "yarn test tests/categories.test.mjs"
+                }
+            }
+        }
+        /* stage('imprima esta informacion'){
             steps{
                 script{
                     def NICKNAME = 'LENIN'
@@ -24,6 +32,6 @@ pipeline{
 
                 }
             }
-        }
+        } */
     }
 }
