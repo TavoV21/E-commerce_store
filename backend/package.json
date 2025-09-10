@@ -33,7 +33,12 @@
     "supertest": "^7.1.4"
   },
   "jest": {
+    "extensionsToTreatAsEsm": [],
     "testEnvironment": "node",
-    "transform": {}
+    "transform": {},
+    "moduleFileExtensions": [
+      "js",
+      "mjs"
+    ]
   }
 }
