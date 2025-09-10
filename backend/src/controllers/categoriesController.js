@@ -1,7 +1,10 @@
-import { pool } from "../db.js";
+import { Categorie } from "../models/Categories.js";
 
 export const getCategories = async (req, res) => {
-  const { rows } = await pool.query("SELECT * FROM categories");
-
-  return res.status(200).json(rows);
+  try {
+    const categorie = await Categorie.findAll();
+    return res.status(200).json(categorie);
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Internal server error" });
+  }
 };

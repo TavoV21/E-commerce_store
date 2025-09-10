@@ -42,6 +42,8 @@ export default function Login(props) {
         }
       })
       .catch((error) => {
+        console.log(error);
+
         if (error.status === 401) {
           setErrors({
             ...errors,

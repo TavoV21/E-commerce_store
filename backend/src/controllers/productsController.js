@@ -1,68 +1,104 @@
-import { pool } from "../db.js";
+import { Product } from "../models/Products.js";
 
 export const getProducts = async (req, res) => {
-  const { rows } = await pool.query("SELECT * FROM products");
-  return res.status(200).json(rows);
+  try {
+    const product = await Product.findAll();
+    return res.status(200).json(product);
+  } catch (error) {
+    return res.status(500).json({ messageServer: "Internal server error" });
+  }
 };
 
 export const createProduct = async (req, res) => {
-  const data = req.body;
-  const image = req.file.originalname;
-
   try {
-    const { rows } = await pool.query(
-      "INSERT INTO products (name,image,description,price,id_categorie) VALUES ($1,$2,$3,$4,$5) RETURNING *",
-      [data.name, image, data.description, data.price, data.id_categorie]
-    );
+    const { name, description, price, id_categorie } = req.body;
 
-    return res
-      .status(200)
-      .json({ message: "Product create successfully", product: rows[0] });
-  } catch (error) {
-    console.log(error);
-
-    if (error?.code === "23502") {
+    if (
+      !req.file?.originalname ||
+      !name ||
+      !description ||
+      !price ||
+      !id_categorie
+    ) {
       return res.status(400).json({ message: "Bad request" });
     }
 
-    return res.status(500).json({ message: "Internal server error" });
+    const image = req.file.originalname;
+
+    const product = await Product.create({
+      name: name,
+      image: image,
+      description: description,
+      price: price,
+      id_categorie: id_categorie,
+    });
+
+    console.log(product);
+
+    return res
+      .status(200)
+      .json({ message: "Product create successfully", product: product });
+  } catch (error) {
+    return res.status(500).json({ messageServer: "Internal server error" });
   }
 };
 
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = req.body;
-    const image = req.file.originalname;
+    const { name, description, price, id_categorie } = req.body;
 
-    const { rows } = await pool.query(
-      "UPDATE  products SET name = $1, image = $2, description= $3, price= $4, id_categorie= $5    WHERE id = $6 RETURNING *",
-      [data.name, image, data.description, data.price, data.id_categorie, id]
-    );
-
-    if (rows.length === 0) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    return res
-      .status(200)
-      .json({ message: "Product updated successfully", product: rows[0] });
-  } catch (error) {
-    if (error?.code === "23502") {
+    if (
+      !req.file?.originalname ||
+      !name ||
+      !description ||
+      !price ||
+      !id_categorie
+    ) {
       return res.status(400).json({ message: "Bad request" });
     }
 
-    return res.status(500).json({ message: "Internal server error" });
+    const image = req.file.originalname;
+
+    const product = await Product.findByPk(id);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    product.name = name;
+    product.image = image;
+    product.description = description;
+    product.price = price;
+    product.id_categorie = id_categorie;
+    await product.save();
+
+    console.log(product);
+
+    return res
+      .status(200)
+      .json({ message: "Product updated successfully", product: product });
+  } catch (error) {
+    return res.status(500).json({ messageServer: "Internal server error" });
   }
 };
 
 export const deleteProduct = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const { rowCount } = await pool.query("DELETE FROM products WHERE id= $1", [
-    id,
-  ]);
-  if (rowCount === 0) {
-    return res.status(404).json({ message: "User not found" });
+    const product = await Product.destroy({
+      where: {
+        id: id,
+      },
+    });
+
+    if (product === 0) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    return res.sendStatus(204);
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Internal server error" });
   }
-  return res.sendStatus(204);
 };

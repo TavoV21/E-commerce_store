@@ -73,10 +73,13 @@ export default function ChangePassword() {
         }, 2000);
       })
       .catch((err) => {
-        setError({
-          ...error,
-          password: "Contraseña no existe",
-        });
+        console.log(err.response.status);
+        if (err.response.status === 401) {
+          setError({
+            ...error,
+            password: "Contraseña no existe",
+          });
+        }
       });
   };
 

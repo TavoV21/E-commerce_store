@@ -8,10 +8,15 @@ import cors from "cors";
 import multer from "multer";
 import { PORT } from "./config.js";
 import path from "path";
+import sequelize from "./db.js";
+import { Rol } from "./models/Rol.js";
+import { User } from "./models/Users.js";
+import { Categorie } from "./models/Categories.js";
+import { Product } from "./models/Products.js";
+import { Cart } from "./models/Cart.js";
 
 const __dirname = path.resolve();
 
-//initializations
 const app = express();
 const PREFIX = "/api/";
 
@@ -50,7 +55,24 @@ app.use(PREFIX, productRoutes);
 app.use(PREFIX, categorieRoutes);
 app.use(PREFIX, cartRoutes);
 
-//init port
-app.listen(PORT, () => {
-  console.log(`server on port: ${PORT}`);
-});
+//init connection BD and init port
+
+async function startServer() {
+  try {
+    await sequelize.sync({ alter: true });
+    await Rol.createDefaultData();
+    await Categorie.createDefaultData();
+    console.log("\x1b[32mConectado exitosamente a la base de datos\x1b[0m");
+    app.listen(PORT, () => {
+      console.log(`\x1b[33mServer on PORT: ${PORT}\x1b[0m`);
+    });
+  } catch (error) {
+    console.log("\x1b[31mError al conectarse a la base de datos\x1b[0m", error);
+  }
+}
+
+if (process.env.NODE_ENV === "development") {
+  startServer();
+}
+
+export { app, startServer };

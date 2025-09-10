@@ -17,12 +17,14 @@ export default function Cart(props) {
 
   // setCountCart(allCart.length);
   localStorage.setItem("carkt", allCart.length);
+  console.log("here...", allCart);
 
   useEffect(() => {
     axios
       .get(`${API_URL}/api/cart/${user.id}`)
       .then((res) => {
         dispatch(fetchCart(res.data));
+        console.log("ojoo", res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -31,8 +33,8 @@ export default function Cart(props) {
 
   useEffect(() => {
     let sum = 0;
-    allCart.map((car) => {
-      let price = parseInt(car.price);
+    allCart?.map((car) => {
+      let price = parseInt(car?.product?.price);
       sum += price;
     });
 
@@ -88,12 +90,12 @@ export default function Cart(props) {
           <h5 className="m-0 fw-bold">Mis Productos</h5>
         </div>
         <div className="card-body text-success">
-          <ul className="list-unstyled">
-            {allCart.map((cart, index) => (
+          <ul className="list-unstyled ">
+            {allCart?.map((cart, index) => (
               <li className="row mb-2 m-0" key={index}>
                 <div className="col-md-2">
                   <img
-                    src={`${API_URL}/uploads/${cart.image}`}
+                    src={`${API_URL}/uploads/${cart?.product?.image}`}
                     className="img-fluid rounded-1"
                     alt="..."
                     style={{
@@ -101,13 +103,13 @@ export default function Cart(props) {
                       width: "70px",
                       cursor: "pointer",
                     }}
-                    onClick={() => handleZoom(cart.image)}
+                    onClick={() => handleZoom(cart.product.image)}
                   />
                   {openZoom && (
                     <div className={`${style.containerImgZoom}`}>
                       <img
                         src={`${API_URL}/uploads/${imgSelect}`}
-                        className={`${style.imgZoom} img-fluid rounded-1 d-flex m-auto`}
+                        className={"img-fluid rounded-1 d-flex m-auto"}
                         style={{ height: "100%", width: "50%" }}
                         alt="..."
                       />
@@ -121,10 +123,10 @@ export default function Cart(props) {
                   )}
                 </div>
                 <div className="col-md-4 d-flex align-items-center justify-content-center">
-                  <p className="m-0">{cart.name}</p>
+                  <p className="m-0">{cart?.product?.name}</p>
                 </div>
                 <div className="col-md-4 d-flex align-items-center justify-content-center">
-                  <p className="m-0">{cart.price}</p>
+                  <p className="m-0">{cart?.product?.price}</p>
                 </div>
                 <div className="col-md-2 d-flex align-items-center justify-content-center">
                   <button
@@ -136,6 +138,9 @@ export default function Cart(props) {
                 </div>
               </li>
             ))}
+            {allCart.length === 0 && (
+              <h3 className="text-white text-center">El carrito esta vacio</h3>
+            )}
           </ul>
         </div>
         <div className="card-footer bg-transparent border-success text-success">

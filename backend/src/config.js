@@ -1,3 +1,10 @@
+import dotenv from "dotenv";
+
+dotenv.config({
+  path: process.env.NODE_ENV === "test" ? ".env.test" : ".env",
+});
+
+console.log(process.env.NODE_ENV);
 console.log(process.env.DB_USER);
 console.log(process.env.DB_HOST);
 console.log(process.env.DB_DATABASE);

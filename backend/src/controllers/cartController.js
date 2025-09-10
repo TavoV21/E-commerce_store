@@ -1,52 +1,74 @@
-import { pool } from "../db.js";
+import { Cart } from "../models/Cart.js";
+import { Product } from "../models/Products.js";
 
 export const createCart = async (req, res) => {
-  const data = req.body;
-
   try {
-    const { rows } = await pool.query(
-      "INSERT INTO cart (id_product, id_user) VALUES ($1,$2) RETURNING *",
-      [data.id_product, data.id_user]
-    );
+    const { id_product, id_user } = req.body;
+
+    if (!id_product || !id_user) {
+      return res.sendStatus(400);
+    }
+
+    const cart = await Cart.create({
+      id_product: id_product,
+      id_user: id_user,
+    });
+
+    console.log(cart);
 
     return res
       .status(200)
-      .json({ message: "Cart create sucessfully", cart: rows[0] });
+      .json({ message: "Cart create sucessfully", cart: cart });
   } catch (error) {
-    console.log(error);
-    if (error?.code === "23502") {
-      return res.status(400).json({ message: "Bad request" });
-    }
-
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ messageServer: "Internal server error" });
   }
 };
 
 export const getCart = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const { rows } = await pool.query(
-    "SELECT cart.id, cart.id_product, cart.id_user, products.name, products.image, products.price FROM products JOIN cart ON products.id = cart.id_product WHERE cart.id_user = $1",
-    [id]
-  );
+    const cart = await Cart.findAll({
+      attributes: ["id", "id_product", "id_user"],
+      include: [
+        {
+          model: Product,
+          attributes: ["name", "image", "price"],
+        },
+      ],
+      where: {
+        id_user: id,
+      },
+    });
 
-  /* if (rows.length === 0) {
-    return res.status(400).json({ message: "Cart not found" });
+    /* if (cart.length === 0) {
+      return res.status(404).json({ message: "Cart not found" });
+    } */
+
+    console.log(cart);
+
+    return res.status(200).json(cart);
+  } catch (error) {
+    return res.status(500).json({ messageServer: "Internal server error" });
   }
-
-  console.log(rows); */
-
-  return res.status(200).json(rows);
 };
 
 export const deleteCart = async (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const { rowCount } = await pool.query("DELETE FROM cart WHERE id = $1", [id]);
+    const cart = await Cart.destroy({
+      where: {
+        id: id,
+      },
+    });
 
-  if (rowCount === 0) {
-    return res.status(404).json({ message: "Cart not found" });
+    if (cart === 0) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    return res.sendStatus(204);
+  } catch (error) {
+    return res.status(500).json({ messsageServer: "Internal server error" });
   }
-
-  return res.sendStatus(204);
 };

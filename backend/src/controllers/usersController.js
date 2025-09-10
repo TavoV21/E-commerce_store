@@ -1,47 +1,70 @@
-import { pool } from "../db.js";
+import { User } from "../models/Users.js";
+
 import { encrypt, compare } from "../handle/handlebcrypt.js";
 import jwt from "jsonwebtoken";
 import { transporter } from "../helpers/mailer.js";
 const secret = process.env.SECRET;
 
 export const getUsers = async (req, res) => {
-  const { rows } = await pool.query("SELECT * FROM users");
-  res.status(200).json(rows);
+  try {
+    const users = await User.findAll();
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Internal server error" });
+  }
 };
 
 export const getUserById = async (req, res) => {
-  const { id } = req.params;
-  const { rows } = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
-  if (rows.length === 0) {
-    return res.status(404).json({ message: "User not found" });
+  try {
+    const { id } = req.params;
+
+    const user = await User.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    console.log(user);
+    res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Internal server error" });
   }
-  res.status(200).json(rows[0]);
 };
 
 export const registerUser = async (req, res) => {
   try {
-    const data = req.body;
-    let hash = await encrypt(data.password);
+    const { name, email, password, id_rol } = req.body;
 
-    console.log(data);
-    const { rows } = await pool.query(
-      "INSERT INTO users (name, email, password, id_rol) VALUES($1, $2, $3, $4) RETURNING *",
-      [data.name, data.email, hash, data.id_rol]
-    );
-    console.log(rows[0]);
+    if (!name || !email || !password || !id_rol) {
+      return res.sendStatus(400);
+    }
 
-    const token = jwt.sign({ id: rows[0].id }, secret, { expiresIn: 60 * 60 });
+    let hash = await encrypt(password);
+    console.log("-----", hash);
+
+    const newUser = await User.create({
+      name: name,
+      email: email,
+      password: hash,
+      id_rol: id_rol,
+    });
+
+    const token = jwt.sign({ id: newUser.id }, secret, {
+      expiresIn: 60 * 60,
+    });
     console.log(token);
 
     res.status(200).json({
       message: "User created successfully",
-      user: rows[0],
+      user: newUser,
       auth: true,
       token,
     });
   } catch (error) {
-    console.log(error);
-    if (error?.code === "23505") {
+    if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(409).json({ message: "Email already exists" });
     }
     return res.status(500).json({ messageServer: "Internal server error" });
@@ -49,58 +72,95 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
-  const data = req.body;
-  const { rows } = await pool.query("SELECT * FROM users WHERE email = $1", [
-    data.email,
-  ]);
+  try {
+    const { email, password } = req.body;
 
-  if (rows.length > 0) {
-    const checkpassword = await compare(data.password, rows[0].password);
-    if (checkpassword) {
-      console.log(rows[0]);
-      const token = jwt.sign({ id: rows[0].id }, secret, {
-        expiresIn: 60 * 60,
-      });
-      return res.status(200).json({ auth: true, token, user: rows[0] });
-    } else {
-      return res
-        .status(401)
-        .json({ auth: false, token: null, message: "Incorrect password" });
+    if (!email || !password) {
+      return res.sendStatus(400);
     }
-  } else {
-    return res.status(404).json({ message: "User not exists" });
+
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+    console.log(user);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not exists" });
+    } else {
+      const checkpassword = await compare(password, user.password);
+
+      if (checkpassword) {
+        const token = jwt.sign({ id: user.id }, secret, {
+          expiresIn: 60 * 60,
+        });
+        return res.status(200).json({ auth: true, token, user: user });
+      } else {
+        return res
+          .status(401)
+          .json({ auth: false, token: null, message: "Incorrect password" });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Internal server error" });
   }
 };
 
 export const updateUser = async (req, res) => {
-  const { id } = req.params;
-  const data = req.body;
+  try {
+    const { id } = req.params;
+    const { name, email } = req.body;
 
-  const { rows } = await pool.query(
-    "UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *",
-    [data.name, data.email, id]
-  );
+    if (!name || !email) {
+      return res.sendStatus(400);
+    }
 
-  return res
-    .status(200)
-    .json({ message: "update user successfully", user: rows[0] });
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.name = name;
+    user.email = email;
+    await user.save();
+
+    console.log(user);
+    return res
+      .status(200)
+      .json({ message: "Update user successfully", user: user });
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Internal server error" });
+  }
 };
 
 export const deleteUser = async (req, res) => {
-  const { id } = req.params;
-  const { rowCount } = await pool.query("DELETE FROM users WHERE id = $1", [
-    id,
-  ]);
-  console.log(rowCount);
-  if (rowCount === 0) {
-    return res.status(404).json({ message: "User not found" });
-  }
+  try {
+    const { id } = req.params;
 
-  return res.sendStatus(204);
+    const user = await User.destroy({
+      where: {
+        id: id,
+      },
+    });
+
+    if (user === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.sendStatus(204);
+  } catch (error) {
+    return res.status(500).json({ mensaje: "Internal server error" });
+  }
 };
 
 export const sendEmailToRecover = async (req, res) => {
   const { email } = req.body;
+
+  if (!email) {
+    res.sendStatus(400);
+    return;
+  }
 
   const info = await transporter.sendMail({
     email: process.env.EMAIL,
@@ -118,37 +178,48 @@ export const sendEmailToRecover = async (req, res) => {
 };
 
 export const updatePassword = async (req, res) => {
-  const { email } = req.params;
-  const { password, newpassword } = req.body;
-  let hash = await encrypt(newpassword);
+  try {
+    const { email } = req.params;
+    const { password, newpassword } = req.body;
 
-  //console.log(password, "---", newpassword, "---", rptpassword);
-
-  const { rows } = await pool.query("SELECT * FROM users WHERE email= $1", [
-    email,
-  ]);
-
-  if (rows.length > 0) {
-    const checkpassword = await compare(password, rows[0].password);
-
-    const state = false;
-    if (checkpassword) {
-      const { rows } = await pool.query(
-        "UPDATE users SET password= $1 WHERE email= $2 RETURNING *",
-        [hash, email]
-      );
-
-      return res.status(200).json({
-        message: "Password update successfully",
-        user: rows[0],
-        state: true,
-      });
-    } else {
-      return res
-        .status(401)
-        .json({ message: "Password is incorrect", state: false });
+    if (!password || !newpassword) {
+      return res.sendStatus(400);
     }
-  } else {
-    return res.status(404).json({ message: "User not exists" });
+
+    let hash = await encrypt(newpassword);
+
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    });
+    console.log(user);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not exists" });
+    } else {
+      const checkpassword = await compare(password, user.password);
+      if (checkpassword) {
+        await User.update(
+          { password: hash },
+          {
+            where: {
+              email: email,
+            },
+          }
+        );
+
+        return res.status(200).json({
+          message: "Password update successfully",
+          state: true,
+        });
+      } else {
+        return res
+          .status(401)
+          .json({ message: "Password is incorrect", state: false });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
   }
 };

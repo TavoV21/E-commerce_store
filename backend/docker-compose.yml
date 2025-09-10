@@ -1,0 +1,37 @@
+services:
+  postgresdb:
+    image: postgres
+    container_name: postgresql
+    restart: always
+    ports:
+      - 15432:5432
+    env_file: ./.env
+    environment:
+      POSTGRES_DB: $DB_DATABASE
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      #- ./database/db.sql:/docker-entrypoint-initdb.d/01-db.sql
+    networks:
+      - mi_red
+
+  app:
+    build: .
+    container_name: nodeapp
+    depends_on:
+      - postgresdb
+    ports:
+      - 5000:5000
+    environment:
+      NODE_ENV: development
+    command: bash -c "sleep 10 && yarn dev"
+    networks:
+      - mi_red
+
+volumes:
+  pg_data:
+
+networks:
+  mi_red:
+    driver: bridge
