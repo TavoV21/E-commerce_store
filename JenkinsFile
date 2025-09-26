@@ -1,0 +1,27 @@
+pipeline{
+    agent any
+    
+    environment{
+        NICKNAME = 'TAVO921'
+    }
+    stages{
+        stage('saludo 1'){
+            steps{
+                echo "hello msr: ${NICKNAME}"
+                echo "saludando paso 1"
+            }
+        }
+        stage('saludo 2'){
+            steps{
+                echo "saludando paso 2"
+                
+            }
+        }
+        stage('saludo 3'){
+            steps{
+                echo "saludando paso 3"
+            }
+        }
+
+    }
+}

@@ -61,6 +61,7 @@ async function startServer() {
   try {
     await sequelize.sync({ alter: true });
     await Rol.createDefaultData();
+    await User.createDefaultData();
     await Categorie.createDefaultData();
     console.log("\x1b[32mConectado exitosamente a la base de datos\x1b[0m");
     app.listen(PORT, () => {
@@ -71,7 +72,7 @@ async function startServer() {
   }
 }
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV !== "test") {
   startServer();
 }
 
