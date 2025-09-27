@@ -5,13 +5,12 @@ pipeline{
        
         stage('docker login'){
             steps{
-               withCredentials([usernamePassword(credentialsId:'DOCKER_CREDENTIALS',usernameVariable:'DOCKER_USERNAME',passwordVariable:'DOCKER_PASSWORD')]){
-                  script {
-                       sh '''
-                            echo "$DOCKER_PASSWORD"| docker login -u "$DOCKER_USERNAME" --password-stdin
-                       '''
-                  }
-               }
+
+               withCredentials([string(credentialsId: 'DOCKER_TOKEN', variable: 'TOKEN')]) {
+                    sh '''
+                        echo "$TOKEN" | docker login -u TavoV21 --password-stdin
+                    '''
+                }
                     
                 
                 
