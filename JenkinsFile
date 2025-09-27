@@ -5,23 +5,30 @@ pipeline{
         NICKNAME = 'TAVO921'
     }
     stages{
-        stage('saludo 1'){
+       
+        stage('docker login'){
             steps{
-                echo "hello msr: ${NICKNAME}"
-                echo "saludando paso 1"
-            }
-        }
-        stage('saludo 2'){
-            steps{
-                echo "saludando paso 2"
+               withCredentials([usernamePassword(credentialsId:'DOCKER_CREDENTIALS',usernameVariable:'DOCKER_USERNAME',passwordVariable:'DOCKER_PASSWORD')]){
+                  script {
+                       sh """
+                            echo "${DOCKER_PASSWORD}"| docker login -u "${DOCKER_USERNAME}" --password-stdin
+                       """
+                  }
+               }
+                    
+                
                 
             }
-        }
-        stage('saludo 3'){
-            steps{
-                echo "saludando paso 3"
+
+            post {
+                success {
+                    echo "✅ te loggeaste OMG"
+                }
+                failure {
+                    echo "❌ algo anda mal"
+                }
             }
         }
-
+       
     }
 }
