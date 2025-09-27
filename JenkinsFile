@@ -1,9 +1,11 @@
 pipeline{
-    agent any
-    
-    environment{
-        NICKNAME = 'TAVO921'
+    agent {
+        docker {
+            image 'docker:20.10'   // Imagen oficial que trae Docker CLI
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
+    
     stages{
        
         stage('docker login'){
