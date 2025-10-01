@@ -7,9 +7,9 @@ pipeline{
             steps{
 
                withCredentials([string(credentialsId: 'DOCKER_TOKEN', variable: 'TOKEN')]) {
-                    sh '''
-                        echo "$TOKEN" | docker login -u TavoV21 --password-stdin
-                    '''
+                    sh "
+                        echo '$TOKEN' | docker login -u TavoV21 --password-stdin
+                    "
                 }
                     
                 
