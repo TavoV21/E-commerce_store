@@ -20,7 +20,7 @@ pipeline{
         stage('test'){
             steps{
                 dir('backend'){             
-                    sh 'yarn test tests/categories.test.js'
+                    sh 'NODE_OPTIONS=--experimental-vm-modules yarn test tests/categories.test.js'
                 }
             }
         }
