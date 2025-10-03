@@ -8,9 +8,12 @@ pipeline{
     stages{
         
         stage('install'){
-            dir('backend'){
-                sh 'node -v'
-                sh 'yarn install'
+            steps{
+                dir('backend'){
+                    sh 'node -v'
+                    sh 'yarn install'
+            }
+
             }
         }
 
