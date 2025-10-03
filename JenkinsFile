@@ -20,7 +20,7 @@ pipeline{
         stage('test'){
             steps{
                 dir('backend'){             
-                    sh 'yarn test tests/categories.test.mjs'
+                    sh 'yarn test tests/categories.test.js'
                 }
             }
         }
