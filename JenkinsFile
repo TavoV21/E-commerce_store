@@ -11,6 +11,7 @@ pipeline{
             steps{
                 dir('backend'){
                     sh 'node -v'
+                    sh 'npm install yarn'
                     sh 'yarn install'
             }
 
