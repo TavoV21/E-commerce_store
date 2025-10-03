@@ -1,7 +1,26 @@
 pipeline{
     agent any
+
+    tools{
+        nodejs "node"
+    }
     
     stages{
+        
+        stage('install'){
+            dir('backend'){
+                sh 'node -v'
+                sh 'yarn install'
+            }
+        }
+
+        stage('test'){
+            steps{
+                dir('backend'){             
+                    sh 'yarn test tests/categories.test.mjs'
+                }
+            }
+        }
        
         stage('docker login'){
             steps{

@@ -11,11 +11,7 @@ describe("CART TESTING", () => {
   let idCart = "";
 
   beforeAll(async () => {
-    try {
-      await startServer();
-    } catch (error) {
-      console.error("Error synchronizing data", error);
-    }
+    await startServer();
   });
 
   beforeAll(async () => {
