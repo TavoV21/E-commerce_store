@@ -2,11 +2,9 @@ FROM node:20
 
 WORKDIR /Myapp
 
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock jest.setup.js ./
 
-ENV NODE_ENV=production
-
-RUN yarn install 
+RUN yarn install --frozen-lockfile
 
 COPY . . 
 

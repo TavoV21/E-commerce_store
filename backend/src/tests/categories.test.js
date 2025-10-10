@@ -1,13 +1,9 @@
 import request from "supertest";
-import { app, startServer } from "../index.js";
+import { app } from "../index.js";
 import sequelize from "../db.js";
 
 describe("CATEGORIES TESTING", () => {
-  beforeAll(async () => {
-    await startServer();
-  });
-
-  afterAll(async () => {
+  /* afterAll(async () => {
     try {
       await sequelize.close();
     } catch (error) {
@@ -16,7 +12,7 @@ describe("CATEGORIES TESTING", () => {
         error
       );
     }
-  });
+  }); */
 
   describe("Route: GET /categories", () => {
     test("All category data will be obtained if everything is correct", async () => {

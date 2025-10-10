@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app, startServer } from "../index.js";
+import { app } from "../index.js";
 import jwt from "jsonwebtoken";
 import { User } from "../models/Users.js";
 import sequelize from "../db.js";
@@ -9,10 +9,6 @@ const secret = process.env.SECRET;
 describe("USER TESTING", () => {
   let userId = "";
 
-  beforeAll(async () => {
-    await startServer();
-  });
-
   afterAll(async () => {
     try {
       await User.destroy({
@@ -20,7 +16,7 @@ describe("USER TESTING", () => {
         cascade: true,
       });
 
-      await sequelize.close();
+      // await sequelize.close();
     } catch (error) {
       console.error(
         "Error cleaning the database or closing the connection",

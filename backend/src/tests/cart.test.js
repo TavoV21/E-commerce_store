@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app, startServer } from "../index.js";
+import { app } from "../index.js";
 import sequelize from "../db.js";
 import { Cart } from "../models/Cart.js";
 import { User } from "../models/Users.js";
@@ -9,10 +9,6 @@ describe("CART TESTING", () => {
   let idProduct = "";
   let idUser = "";
   let idCart = "";
-
-  beforeAll(async () => {
-    await startServer();
-  });
 
   beforeAll(async () => {
     // Create a new user
@@ -57,7 +53,7 @@ describe("CART TESTING", () => {
         cascade: true,
       });
 
-      await sequelize.close();
+      // await sequelize.close();
     } catch (error) {
       console.error(
         "Error cleaning the database or closing the connection",

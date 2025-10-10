@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app, startServer } from "../index.js";
+import { app } from "../index.js";
 import jwt from "jsonwebtoken";
 import path from "path";
 import { Product } from "../models/Products.js";
@@ -11,10 +11,6 @@ const __dirname = path.resolve();
 describe("PRODUCTS TESTING", () => {
   let IdProduct = "";
 
-  beforeAll(async () => {
-    await startServer();
-  });
-
   afterAll(async () => {
     try {
       await Product.destroy({
@@ -22,7 +18,7 @@ describe("PRODUCTS TESTING", () => {
         cascade: true,
       });
 
-      await sequelize.close();
+      // await sequelize.close();
     } catch (error) {
       console.error(
         "Error cleaning the database or closing the connection",

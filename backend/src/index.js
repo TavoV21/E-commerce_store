@@ -64,9 +64,11 @@ async function startServer() {
     await User.createDefaultData();
     await Categorie.createDefaultData();
     console.log("\x1b[32mConectado exitosamente a la base de datos\x1b[0m");
-    app.listen(PORT, () => {
-      console.log(`\x1b[33mServer on PORT: ${PORT}\x1b[0m`);
-    });
+    if (process.env.NODE_ENV !== "test") {
+      app.listen(PORT, () => {
+        console.log(`\x1b[33mServer on PORT: ${PORT}\x1b[0m`);
+      });
+    }
   } catch (error) {
     console.log("\x1b[31mError al conectarse a la base de datos\x1b[0m", error);
   }

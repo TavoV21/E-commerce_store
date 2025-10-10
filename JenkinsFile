@@ -4,42 +4,27 @@ pipeline{
     tools{
         nodejs "node"
     }
+
+    environment{
+        GMAIL_CREDS = credentials('NODEMAILER_AUTH')
+    }
     
     stages{
-        
-        stage('install'){
-            steps{
-                dir('backend'){
-                    sh 'npm install -g yarn'
-                    sh 'yarn install'
-            }
-
-            }
-        }
-
-        stage('test'){
-            steps{
-                dir('backend'){             
-                    sh 'NODE_OPTIONS=--experimental-vm-modules yarn test tests/categories.test.js'
-                }
-            }
-        }
        
         stage('docker login'){
             steps{
-/* 
-               withCredentials([string(credentialsId: 'DOCKER_TOKEN', variable: 'TOKEN')]) {
-                    sh '''
-                        echo "$TOKEN" | docker login -u TavoV21 --password-stdin
-                    '''
-                } */
-                withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDENTIALS', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]){
+
+               /*  withCredentials([usernamePassword(credentialsId: 'DOCKER_CREDENTIALS', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]){
                     sh ''' 
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                     '''
-                }
-                    
-                
+                }  
+ */
+                 withCredentials([usernamePassword(credentialsId: 'DOCKER_GUEST_AUTH', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]){
+                    sh ''' 
+                        echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                    '''
+                }        
                 
             }
 
@@ -52,6 +37,8 @@ pipeline{
                 }
             }
         }
+
+        
        
     }
 }

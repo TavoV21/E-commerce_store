@@ -1,0 +1,30 @@
+services:
+  testdb_pg:
+    image: postgres
+    container_name: postgresql_test
+    restart: always
+    ports:
+      - 25432:5432
+    env_file: ./backend/.env.test
+    volumes:
+      - pg_data_test:/var/lib/postgresql/data
+    networks:
+      - the_red
+
+  app:
+    build: ./backend
+    container_name: server_for_test
+    depends_on:
+      - testdb_pg
+    environment:
+      NODE_ENV: test
+    command: sh -c "sleep 10 && yarn test"
+    networks:
+      - the_red
+
+volumes:
+  pg_data_test:
+
+networks:
+  the_red:
+    driver: bridge
