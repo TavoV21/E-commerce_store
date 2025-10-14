@@ -12,7 +12,7 @@ services:
       - the_red
 
   app:
-    image: tavoguest22/testing_store:v1
+    image: tavoguest22/testing_store:v2
     container_name: server_for_test
     depends_on:
       - testdb_pg
