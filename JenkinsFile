@@ -40,6 +40,7 @@ pipeline{
 
         stage('test'){
             steps{
+                sh 'docker info'
                 sh '''
                 echo "POSTGRES_DB=shopping_test" > backend/.env.test
                 echo "POSTGRES_HOST=testdb_pg" >> backend/.env.test
