@@ -124,12 +124,12 @@ describe("USER TESTING", () => {
   });
 
   describe("Route: POST /sendEmail", () => {
-    /* test("when an email is sent successfully", async () => {
+    test("when an email is sent successfully", async () => {
       const response = await request(app)
         .post("/api/sendEmail")
         .send({ email: "gustavoadolfovilladacamargo@gmail.com" });
       expect(response.statusCode).toBe(200);
-    }); */
+    });
 
     test("when sending an empty email", async () => {
       const response = await request(app)

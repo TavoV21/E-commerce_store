@@ -40,10 +40,23 @@ pipeline{
 
         stage('test'){
             steps{
-                sh 'which docker'
-                sh 'docker compose version'
-                sh 'docker compose -f docker-compose.test.yml up'
-                sh 'docker compose -f docker-compose.test.yml down -v'
+                sh '''
+                echo "POSTGRES_DB=shopping_test" > backend/.env.test
+                echo "POSTGRES_HOST=testdb_pg" >> backend/.env.test
+                echo "POSTGRES_USER=tavo" >> backend/.env.test
+                echo "POSTGRES_PASSWORD=1234" >> backend/.env.test
+                echo "POSTGRES_PORT=5432" >> backend/.env.test
+                echo "SECRET=mySecretKey" >> backend/.env.test
+                echo "ADMIN_EMAIL=admin@gmail.com" >> backend/.env.test
+                echo "ADMIN_PASSWORD=1111" >> backend/.env.test
+                echo "EMAIL=GMAIL_CREDS_USR" >> backend/.env.test
+                echo "PASS_EMAIL=GMAIL_CREDS_PSW" >> backend/.env.test
+                
+                docker compose -f docker-compose.test.yml up
+                docker compose -f docker-compose.test.yml down -v
+                 '''
+              
+            
             }
 
 
