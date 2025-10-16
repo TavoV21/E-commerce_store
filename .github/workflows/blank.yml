@@ -44,14 +44,14 @@ jobs:
           echo "info event: ${{toJson(github.event)}}"
           echo "info: $GITHUB_REPOSITORY_OWNER"
           echo "info: $GITHUB_ACTOR"
-          ls ..
+          ls -la ./backend
 
       - name: "System environments"
         run: |
           echo "obtener nombre de usuario: ${{env.username}} "
           echo "obtener contraseña de usuario: ${{env.password}} "
           echo "mi nombre: ${{vars.FULL_NAME}}"
-          ls -R
+          ls -la /
 
       - name: "Only if the user is correct "
         if: ${{env.username != '' && env.password != ''}}
