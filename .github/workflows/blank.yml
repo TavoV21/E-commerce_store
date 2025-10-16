@@ -15,6 +15,10 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    env:
+      branch: main
+      projectname: ecommerce
+      owner: tavo
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -23,3 +27,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: "Making a job"
         run: echo "Hello from this pipeline!"
+
+      - name: "Showing environments"
+        run: |
+          echo "nombre rama: ${{env.branch}}"
+          echo "nombre projecto: ${{env.projectname}}"
+          echo "nombre dueño: ${{env.owner}}"
