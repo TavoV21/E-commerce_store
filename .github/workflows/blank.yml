@@ -46,3 +46,8 @@ jobs:
         run: |
           echo "obtener nombre de usuario: ${{env.username}} "
           echo "obtener contraseña de usuario: ${{env.password}} "
+
+      - name: "Only if the user is correct "
+        if: ${{env.username != '' && env.password != ''}}
+        run: |
+          echo "Well yes they exist"
