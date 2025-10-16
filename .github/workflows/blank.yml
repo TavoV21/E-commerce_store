@@ -29,6 +29,7 @@ jobs:
         run: echo "Hello from this pipeline!"
 
       - name: "Showing environments"
+        if: ${{env.branch == 'master'}}
         run: |
           echo "nombre rama: ${{env.branch}}"
           echo "nombre projecto: ${{env.projectname}}"
