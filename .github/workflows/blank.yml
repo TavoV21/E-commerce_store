@@ -51,6 +51,7 @@ jobs:
           echo "obtener nombre de usuario: ${{env.username}} "
           echo "obtener contraseña de usuario: ${{env.password}} "
           echo "mi nombre: ${{vars.FULL_NAME}}"
+          ls
 
       - name: "Only if the user is correct "
         if: ${{env.username != '' && env.password != ''}}
