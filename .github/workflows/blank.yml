@@ -19,6 +19,8 @@ jobs:
       branch: main
       projectname: ecommerce
       owner: tavo
+      username: ${{secrets.USERNAME}}
+      password: ${{secrets.PASSWORD}}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -37,5 +39,10 @@ jobs:
       - name: "Showing default environments"
         run: |
           echo "info event: ${{toJson(github.event)}}"
-          echo "info event: $GITHUB_REPOSITORY_OWNER"
-          echo "info event: $GITHUB_ACTOR"
+          echo "info: $GITHUB_REPOSITORY_OWNER"
+          echo "info: $GITHUB_ACTOR"
+
+      - name: "System environments"
+        run: |
+          echo "obtener nombre de usuario: ${{env.username}} "
+          echo "obtener contraseña de usuario: ${{env.password}} "
