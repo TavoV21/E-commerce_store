@@ -34,3 +34,6 @@ jobs:
           echo "nombre rama: ${{env.branch}}"
           echo "nombre projecto: ${{env.projectname}}"
           echo "nombre dueño: ${{env.owner}}"
+      - name: "Showing default environments"
+        run: |
+          echo "info event: ${{toJson(github.event)}}"
