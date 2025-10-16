@@ -31,8 +31,7 @@ jobs:
         run: |
           echo "Hello from this pipeline!"
           pwd
-          ls ..
-          ls
+          ls ../..
 
       - name: "Showing environments"
         if: ${{env.branch == 'master'}}
@@ -45,6 +44,7 @@ jobs:
           echo "info event: ${{toJson(github.event)}}"
           echo "info: $GITHUB_REPOSITORY_OWNER"
           echo "info: $GITHUB_ACTOR"
+          ls ..
 
       - name: "System environments"
         run: |
