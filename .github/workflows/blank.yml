@@ -31,7 +31,8 @@ jobs:
         run: |
           echo "Hello from this pipeline!"
           pwd
-          ls -la E-commerce_store/backend
+          ls ..
+          ls
 
       - name: "Showing environments"
         if: ${{env.branch == 'master'}}
