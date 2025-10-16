@@ -30,7 +30,7 @@ jobs:
       - name: "Making a job"
         run: |
           echo "Hello from this pipeline!"
-          echo "pwd"
+          pwd
 
       - name: "Showing environments"
         if: ${{env.branch == 'master'}}
