@@ -27,10 +27,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: "Making a job"
+      - name: "List folders"
         run: |
           echo "Hello from this pipeline!"
           pwd
+          ls -la
+          ls backend
 
       - name: "Showing environments"
         if: ${{env.branch == 'master'}}
