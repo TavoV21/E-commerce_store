@@ -37,3 +37,5 @@ jobs:
       - name: "Showing default environments"
         run: |
           echo "info event: ${{toJson(github.event)}}"
+          echo "info event: $GITHUB_REPOSITORY_OWNER"
+          echo "info event: $GITHUB_ACTOR"
