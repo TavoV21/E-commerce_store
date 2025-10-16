@@ -28,7 +28,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: "Making a job"
-        run: echo "Hello from this pipeline!"
+        run: |
+          echo "Hello from this pipeline!"
+          echo "pwd"
 
       - name: "Showing environments"
         if: ${{env.branch == 'master'}}
@@ -50,5 +52,4 @@ jobs:
 
       - name: "Only if the user is correct "
         if: ${{env.username != '' && env.password != ''}}
-        run: |
-          echo "Well yes they exist"
+        run: echo "Well yes they exist"
