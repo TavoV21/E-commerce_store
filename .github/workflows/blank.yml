@@ -27,11 +27,12 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v5
       - name: "List folders"
         run: |
           echo "Hello from this pipeline!"
           pwd
-          ls ../..
+          ls -la
 
       - name: "Showing environments"
         if: ${{env.branch == 'master'}}
@@ -44,14 +45,12 @@ jobs:
           echo "info event: ${{toJson(github.event)}}"
           echo "info: $GITHUB_REPOSITORY_OWNER"
           echo "info: $GITHUB_ACTOR"
-          ls -la ./backend
 
       - name: "System environments"
         run: |
           echo "obtener nombre de usuario: ${{env.username}} "
           echo "obtener contraseña de usuario: ${{env.password}} "
           echo "mi nombre: ${{vars.FULL_NAME}}"
-          ls -la /
 
       - name: "Only if the user is correct "
         if: ${{env.username != '' && env.password != ''}}
