@@ -33,26 +33,6 @@ jobs:
           echo "Hello from this pipeline!"
           pwd
           ls -la
-          ls -la backend
 
-      - name: "Showing environments"
-        if: ${{env.branch == 'master'}}
-        run: |
-          echo "nombre rama: ${{env.branch}}"
-          echo "nombre projecto: ${{env.projectname}}"
-          echo "nombre dueño: ${{env.owner}}"
-      - name: "Showing default environments"
-        run: |
-          echo "info event: ${{toJson(github.event)}}"
-          echo "info: $GITHUB_REPOSITORY_OWNER"
-          echo "info: $GITHUB_ACTOR"
-
-      - name: "System environments"
-        run: |
-          echo "obtener nombre de usuario: ${{env.username}} "
-          echo "obtener contraseña de usuario: ${{env.password}} "
-          echo "mi nombre: ${{vars.FULL_NAME}}"
-
-      - name: "Only if the user is correct "
-        if: ${{env.username != '' && env.password != ''}}
-        run: echo "Well yes they exist"
+      - name: "Check docker"
+        run: docker -v
