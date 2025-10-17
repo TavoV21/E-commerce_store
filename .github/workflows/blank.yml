@@ -33,6 +33,7 @@ jobs:
           echo "Hello from this pipeline!"
           pwd
           ls -la
+          ls -la backend
 
       - name: "Showing environments"
         if: ${{env.branch == 'master'}}
