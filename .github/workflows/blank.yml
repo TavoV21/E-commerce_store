@@ -35,4 +35,6 @@ jobs:
           ls -la
 
       - name: "Check docker"
-        run: docker -v
+        run: |
+          docker -v
+          docker compose version
