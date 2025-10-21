@@ -55,5 +55,5 @@ jobs:
           echo "ADMIN_PASSWORD=1111" >> backend/.env.test
           echo "EMAIL=${{env.NODEMAILER_EMAIL}}" >> backend/.env.test
           echo "PASS_EMAIL=${{env.NODEMAILER_PASSWORD}}" >> backend/.env.test
-          docker compose -f docker-compose.test.yml up -d --abort-on-container-exit --exit-code-from app
+          docker compose -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from app
           docker compose -f docker-compose.test.yml down -v
