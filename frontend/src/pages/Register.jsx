@@ -5,7 +5,6 @@ import { ValidationRegister } from "../Validations/FormValidations.js";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createUser } from "../redux/userSlice.js";
-import { API_URL } from "../components/config.js";
 
 export default function Register(props) {
   const { setToken } = props;
@@ -16,6 +15,7 @@ export default function Register(props) {
   const [error, setError] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const API_URL = import.meta.env.VITE_API_SERVER;
 
   const handleValidateform = (e) => {
     e.preventDefault();

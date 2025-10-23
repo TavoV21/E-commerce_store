@@ -4,7 +4,6 @@ import Styled from "./styles/Login.module.css";
 import axios from "axios";
 import { ValidationLogin } from "../Validations/FormValidations";
 import { useDispatch } from "react-redux";
-import { API_URL } from "../components/config.js";
 
 export default function Login(props) {
   const { setToken } = props;
@@ -12,6 +11,8 @@ export default function Login(props) {
   const [errors, setErrors] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_SERVER;
+  console.log(API_URL);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });

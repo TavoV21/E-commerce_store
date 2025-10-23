@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import style from "./styles/FormSendEmail.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../Validations/FormValidateEmail.js";
-import { API_URL } from "../components/config.js";
 import axios from "axios";
 
 export default function FormSendEmail() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState({});
   const [alert, setAlert] = useState(false);
+  const API_URL = import.meta.env.VITE_API_SERVER;
 
   const navigate = useNavigate();
 

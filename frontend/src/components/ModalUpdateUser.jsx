@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../redux/userSlice";
-import { API_URL } from "./config.js";
 
 export default function ModalUpdateUser(props) {
   const { id, allUsers } = props;
   const [user, setUser] = useState({ name: "", email: "" });
   const [alert, setAlert] = useState(false);
-
   const dispatch = useDispatch();
+  const API_URL = import.meta.env.VITE_API_SERVER;
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });

@@ -3,7 +3,6 @@ import style from "./styles/Cart.module.css";
 import axios from "axios";
 import { fetchCart, deleteCart } from "../redux/cartSlice.js";
 import { useDispatch, useSelector } from "react-redux";
-import { API_URL } from "../components/config.js";
 
 export default function Cart(props) {
   // const { setCountCart } = props;
@@ -14,6 +13,7 @@ export default function Cart(props) {
   const [openZoom, setOpenZoom] = useState(false);
   const [imgSelect, setImgSelect] = useState(null);
   const [alert, setAlert] = useState(false);
+  const API_URL = import.meta.env.VITE_API_SERVER;
 
   // setCountCart(allCart.length);
   localStorage.setItem("carkt", allCart.length);

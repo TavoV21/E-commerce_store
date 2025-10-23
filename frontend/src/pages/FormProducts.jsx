@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import { createProduct } from "../redux/productsSlice.js";
 import { useNavigate, Link } from "react-router-dom";
 import { ValidationProduct } from "../Validations/FormProductValidations.js";
-import { API_URL } from "../components/config.js";
 
 export default function FormProducts() {
   const [categories, setCategories] = useState([]);
@@ -22,6 +21,7 @@ export default function FormProducts() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_SERVER;
 
   console.log(product);
 
@@ -264,7 +264,7 @@ export default function FormProducts() {
               viewBox="0 0 16 16"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"
               />
             </svg>

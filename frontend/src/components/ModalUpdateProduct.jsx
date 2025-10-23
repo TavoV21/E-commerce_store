@@ -3,7 +3,6 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { updateProduct } from "../redux/productsSlice";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "./config.js";
 
 export default function ModalUpdateProduct(props) {
   const { id, allProducts } = props;
@@ -23,6 +22,7 @@ export default function ModalUpdateProduct(props) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_SERVER;
 
   console.log(id);
 

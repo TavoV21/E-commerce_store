@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import style from "./styles/ChangePassword.module.css";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { API_URL } from "../components/config.js";
 import { ValidateChangePassword } from "../Validations/FrmValidatePasswordChange";
 import { ValidateNewPassword } from "../Validations/FrmValidateNewPassword";
 
@@ -20,6 +19,7 @@ export default function ChangePassword() {
   const [changeEye2, setChangeEye2] = useState(false);
   const [changeEye3, setChangeEye3] = useState(false);
   const [color, setColor] = useState("");
+  const API_URL = import.meta.env.VITE_API_SERVER;
 
   console.log(email);
   console.log(error);

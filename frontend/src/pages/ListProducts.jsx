@@ -7,7 +7,6 @@ import { deleteProduct, fetchProducts } from "../redux/productsSlice.js";
 import { createCart } from "../redux/cartSlice";
 import { initAxiosInterceptors } from "../components/auth-helper.js";
 import ModalUpdateProduct from "../components/ModalUpdateProduct.jsx";
-import { API_URL } from "../components/config.js";
 import { fetchCart } from "../redux/cartSlice.js";
 
 initAxiosInterceptors();
@@ -22,6 +21,8 @@ export default function ListProducts(props) {
   const [cart, setCart] = useState([]);
   const [search, setSearch] = useState("");
   const [alert, setAlert] = useState(false);
+  const API_URL = import.meta.env.VITE_API_SERVER;
+
   console.log(allProducts);
 
   const user = JSON.parse(localStorage.getItem("user"));

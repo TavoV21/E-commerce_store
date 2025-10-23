@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers, deleteUser } from "../redux/userSlice";
 import DataTable from "react-data-table-component";
 import ModalUpdateUser from "../components/ModalUpdateUser.jsx";
-import { API_URL } from "../components/config.js";
 
 initAxiosInterceptors();
 export default function ListUsers() {
@@ -15,6 +14,7 @@ export default function ListUsers() {
   const allUsers = useSelector((state) => state.users.data);
   const [id, setId] = useState(null);
   const [alert, setAlert] = useState(false);
+  const API_URL = import.meta.env.VITE_API_SERVER;
 
   const columns = [
     {
