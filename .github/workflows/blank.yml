@@ -41,7 +41,7 @@ jobs:
           docker -v
           docker compose version
 
-      - name: "Log in to Docker Hub"
+      - name: "Log in to Docker Hub with user tavov21"
         uses: docker/login-action@v3
         with:
           username: ${{env.DOCKER_MAIN_USER}}
@@ -61,5 +61,24 @@ jobs:
           push: true
           tags: tavov21/store_frontend:latest
 
+      - name: "Log in to Docker Hub with user tavoguest22"
+        uses: docker/login-action@v3
+        with:
+          username: ${{env.DOCKER_GUEST_USER}}
+          password: ${{env.DOCKER_GUEST_PASSWORD}}
+
       - name: "test"
-        run: echo "making tests"
+        run: |
+          echo "NODE_ENV=test" > backend/.env.test
+          echo "POSTGRES_DB=shopping_test" >> backend/.env.test
+          echo "POSTGRES_HOST=testdb_pg" >> backend/.env.test
+          echo "POSTGRES_USER=tavo" >> backend/.env.test
+          echo "POSTGRES_PASSWORD=1234" >> backend/.env.test
+          echo "POSTGRES_PORT=5432" >> backend/.env.test
+          echo "SECRET=${{env.JWT_SECRETKEY}}" >> backend/.env.test
+          echo "ADMIN_EMAIL=admin@gmail.com" >> backend/.env.test
+          echo "ADMIN_PASSWORD=1111" >> backend/.env.test
+          echo "EMAIL=${{env.NODEMAILER_EMAIL}}" >> backend/.env.test
+          echo "PASS_EMAIL=${{env.NODEMAILER_PASSWORD}}" >> backend/.env.test
+          docker compose -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from app
+          docker compose -f docker-compose.test.yml down -v
