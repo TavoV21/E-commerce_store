@@ -7,7 +7,7 @@ services:
       - 25432:5432
     env_file: ./backend/.env.test
     volumes:
-      - pg_data_test:/var/lib/postgresql/data
+      - pg_data_test:/var/lib/postgresql
     networks:
       - the_red
 
