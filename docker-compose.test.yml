@@ -1,6 +1,6 @@
 services:
   testdb_pg:
-    image: postgres
+    image: postgres:17.6
     container_name: postgresql_test
     restart: always
     ports:
