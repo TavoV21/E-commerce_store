@@ -47,6 +47,9 @@ jobs:
           username: ${{env.DOCKER_GUEST_USER}}
           password: ${{env.DOCKER_GUEST_PASSWORD}}
 
+      - name: "clean volumes"
+        run: docker volume prune -f
+
       - name: "build and push Docker image testing"
         uses: docker/build-push-action@v6
         with:
