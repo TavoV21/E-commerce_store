@@ -47,6 +47,9 @@ jobs:
           username: ${{env.DOCKER_GUEST_USER}}
           password: ${{env.DOCKER_GUEST_PASSWORD}}
 
+      - name: "show volumes"
+        run: docker volume ls
+
       - name: "clean volumes"
         run: docker volume prune -f
 
