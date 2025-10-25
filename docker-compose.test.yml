@@ -7,12 +7,12 @@ services:
       - 25432:5432
     env_file: ./backend/.env.test
     volumes:
-      - pg_data_test:/var/lib/postgresql/data
+      - pg_data_test:/var/lib/postgresql
     networks:
       - the_red
 
   app:
-    image: tavoguest22/testing_store:v2
+    image: tavoguest22/testing_store:latest
     container_name: server_for_test
     depends_on:
       - testdb_pg
