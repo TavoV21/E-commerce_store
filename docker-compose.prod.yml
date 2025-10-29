@@ -6,7 +6,6 @@ services:
       - 5000:5000
     environment:
       NODE_ENV: production
-    command: bash -c "sleep 10 && yarn start"
     networks:
       - mi_red
 
