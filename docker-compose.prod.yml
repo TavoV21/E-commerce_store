@@ -20,9 +20,6 @@ services:
     networks:
       - mi_red
 
-volumes:
-  pg_data:
-
 networks:
   mi_red:
     driver: bridge
