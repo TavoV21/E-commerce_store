@@ -1,21 +1,7 @@
 services:
-  postgresdb:
-    image: postgres
-    container_name: postgresql
-    restart: always
-    ports:
-      - 15432:5432
-    env_file: ./backend/.env.production
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-    networks:
-      - mi_red
-
   server:
-    image: tavov21/store_backend:v1
+    image: tavov21/store_backend:latest
     container_name: nodeapp
-    depends_on:
-      - postgresdb
     ports:
       - 5000:5000
     environment:
@@ -25,7 +11,7 @@ services:
       - mi_red
 
   client:
-    image: tavov21/store_frontend:v1
+    image: tavov21/store_frontend:latest
     container_name: reactapp
     depends_on:
       - server

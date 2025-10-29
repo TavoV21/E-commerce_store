@@ -5,12 +5,27 @@ import {
   DB_DATABASE,
   DB_PASSWORD,
   DB_PORT,
+  DB_URL,
 } from "./config.js";
 
-const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
-  host: DB_HOST,
-  dialect: "postgres",
-});
+let sequelize;
+
+if (process.env.NODE_ENV === "production") {
+  sequelize = new Sequelize(DB_URL, {
+    dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  });
+} else {
+  sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
+    host: DB_HOST,
+    dialect: "postgres",
+  });
+}
 
 export default sequelize;
 
