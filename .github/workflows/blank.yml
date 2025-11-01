@@ -69,9 +69,6 @@ jobs:
           username: ${{env.DOCKER_MAIN_USER}}
           password: ${{env.DOCKER_MAIN_PASS}}
 
-      - name: "remove & clean all images"
-        run: docker rmi $(docker images -q) || true
-
       - name: "build and push Docker image backend"
         uses: docker/build-push-action@v6
         with:
