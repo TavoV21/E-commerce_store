@@ -70,16 +70,16 @@ jobs:
           password: ${{env.DOCKER_MAIN_PASS}}
 
       - name: "showing the containers"
-        uses: docker images
+        run: docker images
 
       - name: "showing the imagen"
-        uses: docker ps -a
+        run: docker ps -a
 
       - name: "remove & clean all containers"
-        uses: docker rm $(docker ps -aq) || true
+        run: docker rm $(docker ps -aq) || true
 
       - name: "remove & clean all images"
-        uses: docker rmi $(docker images -q) || true
+        run: docker rmi $(docker images -q) || true
 
       - name: "build and push Docker image backend"
         uses: docker/build-push-action@v6
