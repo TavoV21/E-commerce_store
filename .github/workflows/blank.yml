@@ -69,28 +69,19 @@ jobs:
           username: ${{env.DOCKER_MAIN_USER}}
           password: ${{env.DOCKER_MAIN_PASS}}
 
-      - name: "showing the containers"
-        run: docker images
-
-      - name: "showing the imagen"
-        run: docker ps -a
-
-      - name: "remove & clean all containers"
-        run: docker rm $(docker ps -aq) || true
-
-      - name: "remove & clean all images"
-        run: docker rmi $(docker images -q) || true
+      - name: "create TAG"
+        run: echo"TAG=$(date +'%Y%m%d%H&M&S')" >> $GITHUB_ENV
 
       - name: "build and push Docker image backend"
         uses: docker/build-push-action@v6
         with:
           context: ./backend
           push: true
-          tags: tavov21/store_backend:latest
+          tags: tavov21/store_backend:${TAG}
 
       - name: "build and push Docker image frontend"
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
           push: true
-          tags: tavov21/store_frontend:latest
+          tags: tavov21/store_frontend:${TAG}
