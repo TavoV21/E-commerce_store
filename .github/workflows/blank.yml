@@ -69,6 +69,15 @@ jobs:
           username: ${{env.DOCKER_MAIN_USER}}
           password: ${{env.DOCKER_MAIN_PASS}}
 
+      - name: "showing the containers"
+        uses: docker images
+
+      - name: "showing the imagen"
+        uses: docker ps -a
+
+      - name: "remove & clean all containers"
+        uses: docker rm $(docker ps -aq) || true
+
       - name: "remove & clean all images"
         uses: docker rmi $(docker images -q) || true
 
