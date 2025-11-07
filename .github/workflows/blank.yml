@@ -70,10 +70,7 @@ jobs:
           password: ${{env.DOCKER_MAIN_PASS}}
 
       - name: "Create TAG"
-        run: echo "TAG=$(date + '%Y%m%d%H%M%S')" >> $GITHUB_ENV
-
-      - name: "show tag"
-        run: echo "${{env.TAG}}"
+        run: echo "TAG=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
 
       - name: "build and push Docker image backend"
         uses: docker/build-push-action@v6
