@@ -88,4 +88,6 @@ jobs:
           context: ./frontend
           push: true
           no-cache: true
-          tags: tavov21/store_frontend:latest
+          tags: |
+            tavov21/store_frontend:${{env.TAG}}
+            tavov21/store_frontend:latest
