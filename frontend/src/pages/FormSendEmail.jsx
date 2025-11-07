@@ -80,10 +80,7 @@ export default function FormSendEmail() {
               </p>
             )}
           </div>
-          <button
-            className="btn btn-dark border-light d-block m-auto w-50 "
-            onClick={handleValidateEmail}
-          >
+          <button className={style.boton} onClick={handleValidateEmail}>
             Continuar
           </button>
         </div>

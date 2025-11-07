@@ -44,7 +44,7 @@ function MenuSide(props) {
         style={{ height: "12%" }}
       >
         <button
-          className="bg-dark text-warning border border-warning border-2 rounded-3 p-1"
+          className="bg-dark text-primary border border-secondary border-2 rounded-3 p-1"
           onClick={handleClickMenuOpen}
         >
           <svg
@@ -74,7 +74,7 @@ function MenuSide(props) {
           }}
         >
           <button
-            className="bg-transparent text-warning border-0 position-absolute top-0 end-0 mt-2 me-2"
+            className="bg-transparent text-primary border-0 position-absolute top-0 end-0 mt-2 me-2"
             onClick={handleClickMenuClose}
           >
             <svg
@@ -93,7 +93,7 @@ function MenuSide(props) {
             {user.id_rol === 1 && (
               <li className={`${Style.li} p-3 `}>
                 <Link
-                  className="text-warning text-decoration-none"
+                  className="text-light text-decoration-none"
                   to="/listUsers"
                 >
                   Lista Usuarios
@@ -103,7 +103,7 @@ function MenuSide(props) {
 
             <li className={`${Style.li} p-3 `}>
               <Link
-                className="text-warning text-decoration-none"
+                className="text-light text-decoration-none"
                 to="/listProducts"
               >
                 Productos
@@ -112,7 +112,7 @@ function MenuSide(props) {
 
             {user.id_rol === 2 && (
               <li className={`${Style.li} p-3`}>
-                <Link className="text-warning text-decoration-none" to="/cart">
+                <Link className="text-light text-decoration-none" to="/cart">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -133,7 +133,7 @@ function MenuSide(props) {
           </ul>
 
           <button
-            className=" position-absolute bottom-0 ms-3 mb-3 text-warning border-none bg-transparent border-0"
+            className=" position-absolute bottom-0 ms-3 mb-3 text-light border-none bg-transparent border-0"
             onClick={handleLogOut}
           >
             <svg
