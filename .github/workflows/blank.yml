@@ -69,13 +69,18 @@ jobs:
           username: ${{env.DOCKER_MAIN_USER}}
           password: ${{env.DOCKER_MAIN_PASS}}
 
+      - name: "Create TAG"
+        run: echo "TAG=$(date + '%Y%m%d%H%M%S')" >> $GITHUB_ENV
+
       - name: "build and push Docker image backend"
         uses: docker/build-push-action@v6
         with:
           context: ./backend
           push: true
           no-cache: true
-          tags: tavov21/store_backend:latest
+          tags: |
+            tavov21/store_backend:${{env.TAG}}
+            tavov21/store_backend:latest
 
       - name: "build and push Docker image frontend"
         uses: docker/build-push-action@v6
