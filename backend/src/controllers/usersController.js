@@ -163,11 +163,11 @@ export const sendEmailToRecover = async (req, res) => {
   }
 
   const info = await transporter.sendMail({
-    email: process.env.EMAIL,
+    from: `Enigmatic Store <${process.env.EMAIL}>`,
     to: email,
     subject: "Recuperar tu contraseña",
     html: `<html><head><meta charset="UTF-8"></head><body><h2>Click en el enlace para cambiar su contraseña</h2> 
-            <a href="http://localhost:5173/changePassword/${email}" id="boton" style="cursor:pointer">Cambiar contraseña</a>
+            <a href="https://enigmaticstore.onrender.com/changePassword/${email}" id="boton" style="cursor:pointer">Cambiar contraseña</a>
             
    </body></html> `, // HTML body,
   });
