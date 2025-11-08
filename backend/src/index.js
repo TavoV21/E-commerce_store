@@ -22,7 +22,13 @@ const PREFIX = "/api/";
 
 //middlewares
 app.use(morgan("dev"));
-app.use(cors());
+const corsOptions = {
+  origin: "https://enigmaticstore.onrender.com",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 const storage = multer.diskStorage({
   destination: path.join(__dirname, "src", "public/uploads"),
