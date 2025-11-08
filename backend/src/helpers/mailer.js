@@ -1,8 +1,8 @@
 import nodemailer from "nodemailer";
 
-console.log(process.env.USER);
+console.log(process.env.USER_BREVO);
+console.log(process.env.PASS_BREVO);
 console.log(process.env.EMAIL);
-console.log(process.env.PASS_EMAIL);
 
 // Create a test account or replace with real credentials.
 export const transporter = nodemailer.createTransport({
@@ -10,8 +10,8 @@ export const transporter = nodemailer.createTransport({
   port: 587,
   secure: false, // true for 465, false for other ports
   auth: {
-    user: process.env.USER,
-    pass: process.env.PASS_EMAIL,
+    user: process.env.USER_BREVO,
+    pass: process.env.PASS_BREVO,
   },
 });
 
