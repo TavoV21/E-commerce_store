@@ -1,23 +1,28 @@
-import nodemailer from "nodemailer";
+import { TransactionalEmailsApi, SendSmtpEmail } from "@getbrevo/brevo";
 
-console.log(process.env.USER_BREVO);
-console.log(process.env.PASS_BREVO);
+console.log(process.env.APIKEY_BREVO);
 console.log(process.env.EMAIL);
 
-// Create a test account or replace with real credentials.
-export const transporter = nodemailer.createTransport({
-  host: "smtp-relay.sendinblue.com",
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.USER_BREVO,
-    pass: process.env.PASS_BREVO,
-  },
-});
+let emailAPI = new TransactionalEmailsApi();
+emailAPI.authentications.apiKey.apiKey = process.env.APIKEY_BREVO;
 
-try {
-  await transporter.verify();
-  console.log("Server is ready to take our messages");
-} catch (err) {
-  console.error("Verification failed", err);
+export async function sendEmailInbox(recipientEmail) {
+  let message = new SendSmtpEmail();
+  message.subject = "Restablecer Contraseña";
+  message.textContent = "Hello world!";
+  message.sender = { name: "JJ EnigmaticStore", email: process.env.EMAIL };
+  message.to = [{ email: recipientEmail }];
+  message.htmlContent = ` 
+    <html><head><meta charset="UTF-8"></head><body><h2>Click en el enlace para cambiar su contraseña</h2> 
+              <a href="https://enigmaticstore.onrender.com/changePassword/${recipientEmail}" id="boton" style="cursor:pointer">Cambiar contraseña</a>
+              
+    </body></html>
+  `;
+
+  try {
+    const response = await emailAPI.sendTransacEmail(message);
+    console.log(JSON.stringify(response.body));
+  } catch (error) {
+    console.error("Error sending email:", err.body);
+  }
 }

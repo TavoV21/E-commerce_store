@@ -1,8 +1,7 @@
 import { User } from "../models/Users.js";
-
 import { encrypt, compare } from "../handle/handlebcrypt.js";
 import jwt from "jsonwebtoken";
-import { transporter } from "../helpers/mailer.js";
+import { sendEmailInbox } from "../helpers/mailer.js";
 const secret = process.env.SECRET;
 
 export const getUsers = async (req, res) => {
@@ -162,17 +161,17 @@ export const sendEmailToRecover = async (req, res) => {
     return;
   }
 
-  const info = await transporter.sendMail({
-    from: `Enigmatic Store <${process.env.EMAIL}>`,
-    to: email,
-    subject: "Recuperar tu contraseña",
-    html: `<html><head><meta charset="UTF-8"></head><body><h2>Click en el enlace para cambiar su contraseña</h2> 
-            <a href="https://enigmaticstore.onrender.com/changePassword/${email}" id="boton" style="cursor:pointer">Cambiar contraseña</a>
-            
-   </body></html> `, // HTML body,
+  const userEmail = await User.findOne({
+    where: {
+      email: email,
+    },
   });
 
-  console.log(info);
+  if (!userEmail) {
+    return res.status(404).json({ message: "Email not exists" });
+  }
+
+  await sendEmailInbox(email);
 
   return res.status(200).json({ message: "Send email successfully" });
 };
