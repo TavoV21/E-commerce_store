@@ -16,8 +16,7 @@ services:
     container_name: server_for_test
     depends_on:
       - testdb_pg
-    environment:
-      NODE_ENV: test
+    env_file: ./backend/.env.test
     command: sh -c "sleep 10 && yarn test"
     networks:
       - the_red
