@@ -21,8 +21,8 @@ jobs:
       DOCKER_GUEST_USER: ${{vars.DOCKER_GUEST_USER}}
       DOCKER_GUEST_PASSWORD: ${{secrets.DOCKER_GUEST_PASSWORD}}
       JWT_SECRETKEY: ${{secrets.JWT_SECRET_KEY}}
-      NODEMAILER_EMAIL: ${{vars.NODEMAILER_EMAIL}}
-      NODEMAILER_PASSWORD: ${{secrets.NODEMAILER_PASSWORD}}
+      EMAIL_BREVO: ${{vars.EMAIL_BREVO}}
+      APIKEY_BREVO: ${{secrets.APIKEY_BREVO}}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -47,6 +47,14 @@ jobs:
           username: ${{env.DOCKER_GUEST_USER}}
           password: ${{env.DOCKER_GUEST_PASSWORD}}
 
+      - name: "build and push Docker image testing"
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          no-cache: true
+          tags: tavoguest22/testing_store:latest
+
       - name: "test"
         run: |
           echo "NODE_ENV=test" > backend/.env.test
@@ -58,8 +66,8 @@ jobs:
           echo "SECRET=${{env.JWT_SECRETKEY}}" >> backend/.env.test
           echo "ADMIN_EMAIL=admin@gmail.com" >> backend/.env.test
           echo "ADMIN_PASSWORD=1111" >> backend/.env.test
-          echo "EMAIL=${{env.NODEMAILER_EMAIL}}" >> backend/.env.test
-          echo "PASS_EMAIL=${{env.NODEMAILER_PASSWORD}}" >> backend/.env.test
+          echo "EMAIL=${{env.EMAIL_BREVO}}" >> backend/.env.test
+          echo "APIKEY_BREVO=${{env.APIKEY_BREVO}}" >> backend/.env.test
           docker compose -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from app
           docker compose -f docker-compose.test.yml down -v
 

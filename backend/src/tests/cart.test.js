@@ -91,11 +91,6 @@ describe("CART TESTING", () => {
 
       expect(response.statusCode).toBe(200);
     });
-
-    /* test("If the cart is not found by id then the data will not be obtained.", async () => {
-      const response = await request(app).get("/api/cart/1234567890");
-      expect(response.statusCode).toBe(404);
-    }); */
   });
 
   describe("Route: DELETE /cart/id", () => {

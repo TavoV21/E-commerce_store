@@ -28,7 +28,7 @@ describe("USER TESTING", () => {
   describe("Route POST /registerUsers", () => {
     const user = {
       name: "tavo",
-      email: "test@gmail.com",
+      email: "gustavoadolfovilladacamargo@gmail.com",
       password: "123456",
       id_rol: "2",
     };
@@ -77,7 +77,7 @@ describe("USER TESTING", () => {
 
   describe("Route: POST /loginUser", () => {
     const user = {
-      email: "test@gmail.com",
+      email: "gustavoadolfovilladacamargo@gmail.com",
       password: "123456",
     };
     test("when the data is correct", async () => {
@@ -136,6 +136,13 @@ describe("USER TESTING", () => {
         .post("/api/sendEmail")
         .send({ email: "" });
       expect(response.statusCode).toBe(400);
+    });
+
+    test("if the email does not exist", async () => {
+      const response = await request(app)
+        .post("/api/sendEmail")
+        .send({ email: "test00@gmail.com" });
+      expect(response.statusCode).toBe(404);
     });
   });
 
