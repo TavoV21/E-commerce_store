@@ -13,9 +13,9 @@ export async function sendEmailInbox(recipientEmail) {
   message.sender = { name: "JJ EnigmaticStore", email: process.env.EMAIL };
   message.to = [{ email: recipientEmail }];
   message.htmlContent = ` 
-    <html><head><meta charset="UTF-8"></head><body><h2>Click en el enlace para cambiar su contraseña</h2> 
-              <a href="https://enigmaticstore.onrender.com/changePassword/${recipientEmail}" id="boton" style="cursor:pointer">Cambiar contraseña</a>
-              
+    <html><head><meta charset="UTF-8"></head><body>
+  <h2 style:"border: 2px inset rgba(128, 119, 119, 0.61) ">Click en el enlace para cambiar su contraseña</h2> 
+  <a href="https://enigmaticstore.onrender.com/changePassword/${recipientEmail}" id="boton" style="cursor:pointer; font-style:italic;color:rgb(137, 45, 223)">Cambiar contraseña</a>
     </body></html>
   `;
 
